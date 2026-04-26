@@ -149,10 +149,17 @@ Wrangler validates the config before any resource command, so the file must be f
 
 ```bash
 npx wrangler kv namespace create dearmarc
+```
+
+Wrangler creates the namespace and asks **"Would you like Wrangler to add it on your behalf?"** → answer **N**. The template already has the correct `kv_namespaces[0]` entry with binding `CACHE`; saying yes would append a duplicate entry with a different binding name and the deploy would fail.
+
+Copy the 32-hex namespace ID from the output (looks like `ba850148de8a4582bfcebf1025dff3a0`) and paste it into `wrangler.jsonc` at `kv_namespaces[0].id`, replacing the `CHANGE-ME-PASTE-...` placeholder.
+
+```bash
 npx wrangler r2 bucket create dearmarc-images --jurisdiction=eu
 ```
 
-The first command prints a 32-hex namespace ID. Paste it into `wrangler.jsonc` at `kv_namespaces[0].id`, replacing the placeholder.
+Same prompt - answer **N**. The template already has the correct `r2_buckets[0]` entry with binding `IMAGES` and bucket name `dearmarc-images`, no edit needed.
 
 ### 6. Set runtime secrets
 
