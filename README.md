@@ -72,6 +72,8 @@ In your new repo, open `wrangler.jsonc` and click the pencil icon to edit. Repla
 | `kv_namespaces[0].id` | the namespace ID from step 3 |
 | `routes[0].pattern` | `dearmarc.example.com` |
 
+**Do NOT rename the binding names** `kv_namespaces[0].binding` (`CACHE`), `r2_buckets[0].binding` (`IMAGES`), or `r2_buckets[0].bucket_name` (`dearmarc-images`). The worker code uses these exact names - renaming them breaks the runtime.
+
 Commit the changes directly to `main`.
 
 ### 5. Add the dearmarc PAT as a Dependabot secret
