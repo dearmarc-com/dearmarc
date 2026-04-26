@@ -13,13 +13,11 @@ You'll need:
 - **dearmarc subscription** - email [my@dearmarc.com](mailto:my@dearmarc.com) to get a GitHub Personal Access Token (PAT) with `read:packages` scope, valid for 1 year.
 - **A subdomain** where the admin UI will run, e.g. `dearmarc.example.com`. The parent zone (here `example.com`) must be in your CF account and proxied.
 
-There are two ways to deploy: **clicking through web UIs** (default, no installs needed) or **using a terminal** (recommended if you're comfortable with the command line). Pick one - both end up with the same Worker running.
+Throughout the steps below the example domain is `example.com`. Replace with your own values.
 
 ---
 
-## Path A - Web UIs only (default)
-
-Throughout the steps below the example domain is `example.com`. Replace with your own values.
+## Common setup (do these first, regardless of path)
 
 ### 1. Create a Cloudflare API token
 
@@ -38,6 +36,12 @@ Click **Continue to summary** > **Create Token**, copy the token, and save it in
 ### 2. Create your repo from this template
 
 Click the green **Use this template** button at the top of this page > **Create a new repository**. Make it **Private**, name it whatever you like (e.g. `dearmarc`).
+
+---
+
+There are two ways to continue: **clicking through web UIs** (default, no installs needed) or **using a terminal** (recommended if you're comfortable with the command line). Pick one - both end up with the same Worker running.
+
+## Path A - Web UIs only (default)
 
 ### 3. Create the KV namespace and R2 bucket in Cloudflare
 
@@ -117,13 +121,14 @@ You're done. The cron runs every Monday 07:00 UTC; the next Monday you'll receiv
 
 ## Path B - Terminal (advanced)
 
-Same end result as Path A, fewer clicks. You need:
+Same end result as Path A, fewer clicks. Extra requirement:
 
 - **Node.js 20+** installed locally
 - A terminal where `git` and `npm` work
-- The CF API token from Path A step 1 and the dearmarc PAT from your subscription email
 
-### 1. Clone and install
+### 3. Clone and install
+
+Clone the repo you created in step 2:
 
 ```bash
 git clone https://github.com/<your-org>/<your-repo>.git
@@ -134,27 +139,27 @@ npm install
 
 The committed `.npmrc` reads the token from the `NPM_TOKEN` env var - no file edit needed.
 
-### 2. Create KV namespace and R2 bucket
+### 4. Create KV namespace and R2 bucket
 
 ```bash
 npx wrangler kv namespace create dearmarc
 npx wrangler r2 bucket create dearmarc-images --jurisdiction=eu
 ```
 
-The first command prints a 32-hex namespace ID; copy it for step 3.
+The first command prints a 32-hex namespace ID; copy it for step 5.
 
-### 3. Edit `wrangler.jsonc`
+### 5. Edit `wrangler.jsonc`
 
 Same fields as Path A step 4. Replace the `CHANGE-ME` placeholders.
 
-### 4. Set runtime secrets
+### 6. Set runtime secrets
 
 ```bash
 npx wrangler secret put CLOUDFLARE_API_KEY    # paste CF API token
 npx wrangler secret put RESEND_API_KEY        # paste Resend API key
 ```
 
-### 5. Deploy
+### 7. Deploy
 
 ```bash
 npm run deploy
@@ -162,7 +167,7 @@ npm run deploy
 
 Wrangler builds, validates secrets, deploys. The custom domain is provisioned automatically (the parent zone must be a proxied zone in your CF account).
 
-### 6. Log in to the admin UI
+### 8. Log in to the admin UI
 
 Open `https://dearmarc.example.com/` and log in with the CF API token. Activate zones, set recipients. The cron runs Monday 07:00 UTC.
 
