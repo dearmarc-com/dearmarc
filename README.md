@@ -81,15 +81,18 @@ This is what Dependabot uses to pull `@nehoupat/dearmarc-core` updates from GitH
 
 ### 6. Connect the Worker to your repo
 
-Cloudflare dashboard > **Workers & Pages** > **Create** > **Workers** > **Connect to Git**.
+Cloudflare dashboard > **Compute** > **Workers & Pages** > **Create application** > **Connect GitHub**.
 
 - Authorize the Cloudflare GitHub App for your account if prompted.
 - Pick the repo you created in step 2.
 - Build settings: keep the defaults. Cloudflare reads `wrangler.jsonc` to know what to build.
-- **Build variables**: add `NPM_TOKEN` = your dearmarc PAT (`ghp_...`). Without this, the build can't install the private package.
-- Click **Save and Deploy**.
+- Expand **Advanced settings** > **Build variables** > **Add variable**:
+  - Name: `NPM_TOKEN`
+  - Value: your dearmarc PAT (`ghp_...`)
+  - **Tick the Encrypt checkbox** - the PAT is sensitive, don't leave it in plaintext.
+- Click **Deploy**.
 
-The first build runs `npm install` and `wrangler deploy`. It will likely succeed but the worker will throw at runtime because the secrets aren't set yet - that's fine, fix it next.
+The form saves and deploys in one step. The first build runs `npm install` and `wrangler deploy` - it succeeds, but the worker will throw at runtime because the runtime secrets aren't set yet. That's fine, fix it next.
 
 ### 7. Add runtime secrets to the worker
 
@@ -98,7 +101,7 @@ Worker > **Settings** > **Variables and Secrets** > **Add**:
 - `CLOUDFLARE_API_KEY` (Secret) - the CF API token you created in step 1
 - `RESEND_API_KEY` (Secret) - from your Resend dashboard
 
-Trigger a redeploy: **Deployments** tab > **Retry deployment** on the latest one (or push any small commit).
+Click **Deploy** in the form - the worker redeploys with the new secrets in one step.
 
 ### 8. Log in to the admin UI
 
@@ -125,12 +128,11 @@ Same end result as Path A, fewer clicks. You need:
 ```bash
 git clone https://github.com/<your-org>/<your-repo>.git
 cd <your-repo>
-cp .npmrc.example .npmrc
-export GITHUB_TOKEN=ghp_xxxxxxxxxxxxx   # your dearmarc PAT
+export NPM_TOKEN=ghp_xxxxxxxxxxxxx   # your dearmarc PAT
 npm install
 ```
 
-`.npmrc` is in `.gitignore` - never commit it.
+The committed `.npmrc` reads the token from the `NPM_TOKEN` env var - no file edit needed.
 
 ### 2. Create KV namespace and R2 bucket
 
@@ -185,7 +187,7 @@ Your dearmarc PAT expires in 1 year. **The deployed worker keeps running after e
 
 ## Troubleshooting
 
-**`npm install` fails with 401 Unauthorized.** The PAT is missing, expired, or doesn't have `read:packages` scope. Check `echo $GITHUB_TOKEN` (terminal) or the `NPM_TOKEN` build variable in the Worker's settings (web).
+**`npm install` fails with 401 Unauthorized.** The PAT is missing, expired, or doesn't have `read:packages` scope. Check `echo $NPM_TOKEN` (terminal) or the `NPM_TOKEN` build variable in the Worker's settings (web).
 
 **Admin UI login doesn't work.** The login code must match the `CLOUDFLARE_API_KEY` secret exactly. If you rotated the token in the CF dashboard, redeploy with the new value.
 
