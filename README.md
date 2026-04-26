@@ -139,18 +139,20 @@ npm install
 
 The committed `.npmrc` reads the token from the `NPM_TOKEN` env var - no file edit needed.
 
-### 4. Create KV namespace and R2 bucket
+### 4. Edit `wrangler.jsonc`
+
+Same fields as Path A step 4 - replace the `CHANGE-ME` placeholders for `name`, `vars.PUBLIC_URL`, `vars.MAIL_FROM`, and `routes[0].pattern`. Leave `kv_namespaces[0].id` as a placeholder for now - we'll fill it in after the namespace exists.
+
+Wrangler validates the config before any resource command, so the file must be free of invalid placeholder values like `dearmarc.CHANGE-ME.com` before the next step.
+
+### 5. Create KV namespace and R2 bucket
 
 ```bash
 npx wrangler kv namespace create dearmarc
 npx wrangler r2 bucket create dearmarc-images --jurisdiction=eu
 ```
 
-The first command prints a 32-hex namespace ID; copy it for step 5.
-
-### 5. Edit `wrangler.jsonc`
-
-Same fields as Path A step 4. Replace the `CHANGE-ME` placeholders.
+The first command prints a 32-hex namespace ID. Paste it into `wrangler.jsonc` at `kv_namespaces[0].id`, replacing the placeholder.
 
 ### 6. Set runtime secrets
 
