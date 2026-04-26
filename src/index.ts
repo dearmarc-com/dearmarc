@@ -1,20 +1,21 @@
-// Thin worker entry point. All logic comes from the @nehoupat/dearmarc-core
-// package. This file exists so you can plug in your own pre/post hooks
-// (logging, additional routes, custom auth, ...) if you ever need to.
-// The default is a passthrough.
+// Thin worker entry. The default export from @nehoupat/dearmarc-core is the
+// full worker handler ({ fetch, scheduled }) - this file just re-exports it
+// so wrangler finds a default export.
+//
+// To add custom pre/post hooks (logging, extra routes, custom auth), replace
+// the re-export with a wrapper:
+//
+//   import handler from "@nehoupat/dearmarc-core";
+//   import type { Env } from "@nehoupat/dearmarc-core";
+//
+//   export default {
+//     async fetch(request, env, ctx): Promise<Response> {
+//       // your pre-hook here
+//       return handler.fetch!(request, env, ctx);
+//     },
+//     async scheduled(event, env, ctx): Promise<void> {
+//       return handler.scheduled!(event, env, ctx);
+//     },
+//   } satisfies ExportedHandler<Env>;
 
-import {
-  handleRequest,
-  runScheduledReports,
-  type Env,
-} from "@nehoupat/dearmarc-core";
-
-export default {
-  async fetch(request, env, ctx): Promise<Response> {
-    return handleRequest(request, env, ctx);
-  },
-
-  async scheduled(_event, env, ctx): Promise<void> {
-    ctx.waitUntil(runScheduledReports(env));
-  },
-} satisfies ExportedHandler<Env>;
+export { default } from "@nehoupat/dearmarc-core";
