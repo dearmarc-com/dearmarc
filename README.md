@@ -170,6 +170,8 @@ npx wrangler secret put CLOUDFLARE_API_KEY    # paste CF API token
 npx wrangler secret put RESEND_API_KEY        # paste Resend API key
 ```
 
+For the **first** secret, wrangler asks **"There doesn't seem to be a Worker called X. Do you want to create..."** → answer **y**. Wrangler creates an empty Worker shell with that name and stores the secret in it. The next `wrangler deploy` (step 7) ships the actual code into the same Worker, picking up the secrets you just set.
+
 ### 7. Deploy
 
 ```bash
