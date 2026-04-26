@@ -184,6 +184,20 @@ Wrangler builds, validates secrets, deploys. The custom domain is provisioned au
 
 Open `https://dearmarc.example.com/` and log in with the CF API token. Activate zones, set recipients. The cron runs Monday 07:00 UTC.
 
+### 9. (Optional) Connect to Git for auto-deploy
+
+Path B leaves the Worker in manual-deploy mode - you run `npm run deploy` locally after every change. To enable auto-deploy on push (same behaviour as Path A):
+
+Cloudflare dashboard > **Compute** > **Workers & Pages** > open your Worker > **Settings** > **Builds** > **Connect**.
+
+- Authorize the Cloudflare GitHub App if prompted.
+- Pick the repo you created in step 2.
+- Build settings: keep defaults.
+- **Build variables**: add `NPM_TOKEN` (Encrypted) = your dearmarc PAT.
+- Save.
+
+Every push to `main` now triggers a rebuild + redeploy. Manual `npm run deploy` still works for ad-hoc deploys; the two coexist.
+
 ---
 
 ## Updates
