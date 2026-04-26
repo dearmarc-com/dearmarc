@@ -1,4 +1,4 @@
-# Dependabot - opens a weekly PR with @nehoupat/dearmarc-core updates.
+# Dependabot - opens a weekly PR with @dearmarc-com/dearmarc-core updates.
 # Lets you keep the deploy current without manual checking. The PR runs
 # through your CI (typecheck, any tests) and you merge it when ready.
 #
@@ -25,8 +25,8 @@ updates:
       day: tuesday
     registries:
       - github-packages
-    # Only PR @nehoupat/dearmarc-core updates. Wrangler / typescript /
+    # Only PR @dearmarc-com/dearmarc-core updates. Wrangler / typescript /
     # workers-types updates can be handled manually at your own pace.
     allow:
-      - dependency-name: "@nehoupat/dearmarc-core"
+      - dependency-name: "@dearmarc-com/dearmarc-core"
     open-pull-requests-limit: 3

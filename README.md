@@ -1,6 +1,6 @@
 # dearmarc deployment template
 
-Deployment scaffold for [dearmarc](https://github.com/nehoupat/dearmarc) - weekly DMARC reports for Cloudflare zones, delivered to your inbox. The library itself is a private npm package `@nehoupat/dearmarc-core`, available with a yearly subscription. This repo contains the thin entry point and configuration files you need to run your own instance on your own Cloudflare account.
+Deployment scaffold for [dearmarc](https://github.com/dearmarc-com/dearmarc) - weekly DMARC reports for Cloudflare zones, delivered to your inbox. The library itself is a private npm package `@dearmarc-com/dearmarc-core`, available with a yearly subscription. This repo contains the thin entry point and configuration files you need to run your own instance on your own Cloudflare account.
 
 ## 0. Before you start
 
@@ -77,7 +77,7 @@ Still in your repo: **Settings** > **Secrets and variables** > **Dependabot** > 
 - Name: `NPM_TOKEN_DEARMARC`
 - Value: your dearmarc PAT (`ghp_...`)
 
-This is what Dependabot uses to pull `@nehoupat/dearmarc-core` updates from GitHub Packages on your behalf.
+This is what Dependabot uses to pull `@dearmarc-com/dearmarc-core` updates from GitHub Packages on your behalf.
 
 ### 6. Connect the Worker to your repo
 
@@ -170,14 +170,14 @@ Open `https://dearmarc.example.com/` and log in with the CF API token. Activate 
 
 ## Updates
 
-`@nehoupat/dearmarc-core` is updated when bug fixes or new features ship. There's no fixed cadence.
+`@dearmarc-com/dearmarc-core` is updated when bug fixes or new features ship. There's no fixed cadence.
 
 **Web (Dependabot):** With `NPM_TOKEN_DEARMARC` configured (Path A step 5), Dependabot checks for updates every Tuesday and opens a PR **only when a new version is published** - if there's nothing new, you get nothing, no noise. Review and merge the PR; the connected Worker rebuilds and redeploys automatically.
 
 **Terminal:**
 
 ```bash
-npm update @nehoupat/dearmarc-core
+npm update @dearmarc-com/dearmarc-core
 npm run deploy
 ```
 
@@ -205,7 +205,7 @@ The library only makes outbound calls to:
 - **Resend API** (with your key) for sending emails
 - **DNS-over-HTTPS** at `1.1.1.1` for DMARC/SPF/DKIM/MTA-STS/BIMI/TLSRPT lookups
 
-**No call-home to dearmarc, no telemetry.** All your data stays in your Cloudflare account (KV + R2). License details: `node_modules/@nehoupat/dearmarc-core/doc/license-model.md`.
+**No call-home to dearmarc, no telemetry.** All your data stays in your Cloudflare account (KV + R2). License details: `node_modules/@dearmarc-com/dearmarc-core/doc/license-model.md`.
 
 ---
 

@@ -7,7 +7,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nehoupat/dearmarc.git"
+    "url": "git+https://github.com/dearmarc-com/dearmarc.git"
   },
   "bugs": {
     "email": "my@dearmarc.com"
@@ -23,7 +23,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@nehoupat/dearmarc-core": "^0.1.0"
+    "@dearmarc-com/dearmarc-core": "^0.1.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4",

@@ -1,12 +1,12 @@
-// Thin worker entry. The default export from @nehoupat/dearmarc-core is the
+// Thin worker entry. The default export from @dearmarc-com/dearmarc-core is the
 // full worker handler ({ fetch, scheduled }) - this file just re-exports it
 // so wrangler finds a default export.
 //
 // To add custom pre/post hooks (logging, extra routes, custom auth), replace
 // the re-export with a wrapper:
 //
-//   import handler from "@nehoupat/dearmarc-core";
-//   import type { Env } from "@nehoupat/dearmarc-core";
+//   import handler from "@dearmarc-com/dearmarc-core";
+//   import type { Env } from "@dearmarc-com/dearmarc-core";
 //
 //   export default {
 //     async fetch(request, env, ctx): Promise<Response> {
@@ -18,4 +18,4 @@
 //     },
 //   } satisfies ExportedHandler<Env>;
 
-export { default } from "@nehoupat/dearmarc-core";
+export { default } from "@dearmarc-com/dearmarc-core";
