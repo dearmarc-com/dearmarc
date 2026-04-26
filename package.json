@@ -1,0 +1,33 @@
+{
+  "name": "dearmarc-deployment-template",
+  "version": "0.1.0",
+  "description": "Deployment template for dearmarc - weekly DMARC reports on Cloudflare Workers.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nehoupat/dearmarc.git"
+  },
+  "bugs": {
+    "email": "my@dearmarc.com"
+  },
+  "author": "Nehoupat",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "tail": "wrangler tail"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@nehoupat/dearmarc-core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4",
+    "typescript": "^5.7.0",
+    "wrangler": "^4"
+  }
+}

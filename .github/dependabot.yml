@@ -1,0 +1,32 @@
+# Dependabot - opens a weekly PR with @nehoupat/dearmarc-core updates.
+# Lets you keep the deploy current without manual checking. The PR runs
+# through your CI (typecheck, any tests) and you merge it when ready.
+#
+# Auth to the private package requires your dearmarc PAT, configured in
+# repo Settings > Secrets and variables > Dependabot:
+#   secret name: NPM_TOKEN_DEARMARC (any name, just match it below)
+#   value: ghp_xxxxxxxxxxx
+#
+# It's referenced below as ${{secrets.NPM_TOKEN_DEARMARC}}.
+
+version: 2
+
+registries:
+  github-packages:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.NPM_TOKEN_DEARMARC}}
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+    registries:
+      - github-packages
+    # Only PR @nehoupat/dearmarc-core updates. Wrangler / typescript /
+    # workers-types updates can be handled manually at your own pace.
+    allow:
+      - dependency-name: "@nehoupat/dearmarc-core"
+    open-pull-requests-limit: 3

@@ -1,0 +1,18 @@
+# GitHub Packages auth for the @nehoupat scope. Copy this file to .npmrc
+# (.npmrc is in .gitignore - never commit it, it contains your token).
+#
+# 1) Get a GitHub Personal Access Token (PAT) with `read:packages` scope from
+#    your dearmarc subscription. The PAT is valid for 1 year (or per your
+#    subscription terms).
+#
+# 2) Copy this file: cp .npmrc.example .npmrc
+#
+# 3) Either replace ${GITHUB_TOKEN} below with the literal token value, OR
+#    export it as an env variable before running `npm install`:
+#       export GITHUB_TOKEN=ghp_xxxxxxxxxxxxx
+#
+# 4) On expiry, you renew via a new PAT from dearmarc. Your existing deploy
+#    keeps running - only `npm install` will fail until you have a valid token.
+
+@nehoupat:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}

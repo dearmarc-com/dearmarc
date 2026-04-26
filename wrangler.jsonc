@@ -1,0 +1,62 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // Worker name on your CF account - must be unique within the account.
+  "name": "dearmarc-CHANGE-ME",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Observability via CF dashboard (Workers Logs).
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+
+  // Public, non-secret config values - committed to the repo.
+  "vars": {
+    // "production" in prod, override to "development" via .dev.vars for local dev.
+    "ENVIRONMENT": "production",
+
+    // Public URL of the worker - must match routes.pattern below (or workers.dev URL).
+    // Used in email reports as the img src prefix for PNG charts served from R2.
+    "PUBLIC_URL": "https://dearmarc.CHANGE-ME.com",
+
+    // Resend sender in "Display Name <user@domain>" format.
+    // The domain must be verified in Resend (DKIM/SPF/DMARC).
+    "MAIL_FROM": "DMARC reports <reports@CHANGE-ME.com>"
+  },
+
+  // KV namespace for cache + admin sessions + subscriptions + DNS snapshots.
+  // Get the ID by running: wrangler kv namespace create dearmarc
+  // (or create it in the CF dashboard - Storage & Databases > Workers KV).
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "CHANGE-ME-PASTE-KV-NAMESPACE-ID-HERE"
+    }
+  ],
+
+  // R2 bucket for PNG charts in email. Use the EU jurisdiction for GDPR.
+  // Create via: wrangler r2 bucket create dearmarc-images --jurisdiction=eu
+  // (or in the CF dashboard - Storage & Databases > R2 Object Storage).
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "dearmarc-images",
+      "jurisdiction": "eu"
+    }
+  ],
+
+  // Custom domain - must be a proxied zone in your CF account.
+  "routes": [
+    { "pattern": "dearmarc.CHANGE-ME.com", "custom_domain": true }
+  ],
+
+  // Cron handler - every Monday 07:00 UTC.
+  // NOTE: textual "mon" is intentional; CF's cron parser interprets numeric
+  // weekday with an offset of 1 vs. standard cron, so always use textual names.
+  "triggers": {
+    "crons": ["0 7 * * mon"]
+  }
+}
