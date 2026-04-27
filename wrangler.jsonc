@@ -61,6 +61,15 @@
     { "pattern": "dearmarc.CHANGE-ME.com", "custom_domain": true }
   ],
 
+  // Service binding to self - cron handler uses this to fan out work to
+  // per-zone invocations. PUBLIC_URL self-fetch via CF edge is unreliable
+  // (HTTP 522 self-routing timeouts), service binding goes directly
+  // worker-to-worker. The `service` value MUST match the worker `name`
+  // above; if you renamed `name`, rename `service` to match.
+  "services": [
+    { "binding": "SELF", "service": "dearmarc-CHANGE-ME" }
+  ],
+
   // Cron handler - every Monday 07:00 UTC.
   // NOTE: textual "mon" is intentional; CF's cron parser interprets numeric
   // weekday with an offset of 1 vs. standard cron, so always use textual names.

@@ -71,6 +71,7 @@ In your new repo, open `wrangler.jsonc` and click the pencil icon to edit. Repla
 | `vars.MAIL_FROM` | `DMARC reports <reports@example.com>` |
 | `kv_namespaces[0].id` | the namespace ID from step 3 |
 | `routes[0].pattern` | `dearmarc.example.com` |
+| `services[0].service` | `dearmarc` (must match `name` above) |
 
 **Do NOT rename the binding names** `kv_namespaces[0].binding` (`CACHE`), `r2_buckets[0].binding` (`IMAGES`), or `r2_buckets[0].bucket_name` (`dearmarc-images`). The worker code uses these exact names - renaming them breaks the runtime.
 
