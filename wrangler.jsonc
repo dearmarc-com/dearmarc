@@ -75,5 +75,12 @@
   // weekday with an offset of 1 vs. standard cron, so always use textual names.
   "triggers": {
     "crons": ["0 7 * * mon"]
+  },
+
+  // Worker version metadata - exposes the deployment ID at runtime via
+  // env.CF_VERSION_METADATA.id. Rendered (truncated) in admin and report
+  // footers so customers can quote it in support requests.
+  "version_metadata": {
+    "binding": "CF_VERSION_METADATA"
   }
 }
